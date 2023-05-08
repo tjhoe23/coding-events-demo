@@ -1,8 +1,9 @@
 package org.launchcode.codingevents.models;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.NumberFormat;
+
+import javax.validation.constraints.*;
 import java.util.Objects;
 
 /**
@@ -24,10 +25,29 @@ public class Event {
     @Email(message = "Invalid email. Try again.")
     private String contactEmail;
 
-    public Event(String name, String description, String contactEmail) {
+    @NotBlank(message = "Location is required.")
+    @NotNull(message = "Location is required.")
+    private String eventLocation;
+
+    @AssertTrue(message = "You must register for this event.")
+    private boolean registerForEvent;
+
+    @NotNull
+    @Positive(message = "Number of attendees must be one or more.")
+    private int numberOfAttendees;
+
+    @DateTimeFormat()
+    @Positive(message = "Please enter the date of attendance")
+    private String eventDate;
+
+    public Event(String name, String description, String contactEmail, String eventLocation, Boolean registerForEvent, int numberOfAttendees, String eventDate) {
         this.name = name;
         this.description = description;
         this.contactEmail = contactEmail;
+        this.eventLocation = eventLocation;
+        this.registerForEvent = registerForEvent;
+        this.numberOfAttendees = numberOfAttendees;
+        this.eventDate = eventDate;
         this.id = nextId;
         nextId++;
     }
@@ -56,6 +76,38 @@ public class Event {
 
     public void setContactEmail(String contactEmail) {
         this.contactEmail = contactEmail;
+    }
+
+    public String getEventLocation() {
+        return eventLocation;
+    }
+
+    public void setEventLocation(String eventLocation) {
+        this.eventLocation = eventLocation;
+    }
+
+    public Boolean getRegisterForEvent() {
+        return registerForEvent;
+    }
+
+    public void setRegisterForEvent(Boolean registerForEvent) {
+        this.registerForEvent = registerForEvent;
+    }
+
+    public int getNumberOfAttendees() {
+        return numberOfAttendees;
+    }
+
+    public void setNumberOfAttendees(int numberOfAttendees) {
+        this.numberOfAttendees = numberOfAttendees;
+    }
+
+    public String getEventDate() {
+        return eventDate;
+    }
+
+    public void setEventDate(String eventDate) {
+        this.eventDate = eventDate;
     }
 
     public int getId() {
